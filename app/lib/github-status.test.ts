@@ -55,6 +55,13 @@ describe("GitHub service health", () => {
         updated_at: "2026-08-17T16:16:13.252Z",
         incident_updates: [
           {
+            body: "Initial investigation",
+            created_at: "2026-08-17T13:40:03.705Z",
+            display_at: "2026-08-17T13:40:03.705Z",
+            status: "investigating",
+            affected_components: null,
+          },
+          {
             body: "Earlier update",
             created_at: "2026-08-17T15:42:25.338Z",
             display_at: "2026-08-17T15:42:25.338Z",

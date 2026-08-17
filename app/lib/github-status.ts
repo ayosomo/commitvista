@@ -18,7 +18,10 @@ const incidentUpdateSchema = z.object({
   created_at: z.string(),
   display_at: z.string(),
   status: z.string(),
-  affected_components: z.array(affectedComponentSchema).default([]),
+  affected_components: z
+    .array(affectedComponentSchema)
+    .nullish()
+    .transform((components) => components ?? []),
 });
 
 const incidentSchema = z.object({
