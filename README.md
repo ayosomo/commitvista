@@ -102,3 +102,14 @@ See [PROJECT_PLAN.md](PROJECT_PLAN.md) for the phased plan. The next phase will 
 ## Data and privacy
 
 CommitVista reads public GitHub data only. It does not collect passwords, store GitHub tokens or persist profile data. External links open the relevant GitHub resource.
+
+## Repository security
+
+- CI runs linting, strict typechecking, tests and a production build on every pull request
+- CodeQL analyses JavaScript and TypeScript on pushes, pull requests and a weekly schedule
+- Dependabot monitors npm packages and GitHub Actions
+- Workflow permissions are declared explicitly and third-party actions are pinned to immutable commits
+- Vulnerabilities should be reported privately using the process in [SECURITY.md](SECURITY.md)
+- `.env` files are ignored and Phase 1 requires no client-side secret
+
+The public source is licensed for portfolio review under the terms in [LICENSE](LICENSE). Future commercial services, private integrations and production credentials should remain in separate private repositories.
