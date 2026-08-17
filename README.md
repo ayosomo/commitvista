@@ -2,6 +2,8 @@
 
 CommitVista turns live public GitHub activity into understandable engineering insights. Enter a GitHub username or profile URL to explore repository health, recent contribution rhythm, pull-request signals and language composition.
 
+**Live demo:** [commitvista.vercel.app](https://commitvista.vercel.app)
+
 > Phase 1 is a frontend product prototype backed by the real GitHub REST API. It does not use invented dashboard data and it does not claim that activity volume is a complete measure of developer productivity.
 
 ## Phase 1 highlights
@@ -62,6 +64,10 @@ npm run dev
 ```
 
 Then open `http://localhost:3000`.
+
+## Deployment
+
+Production deployments run on Vercel through the repository's Nitro adapter. Vercel uses `npm run build:vercel` and publishes the generated Build Output API bundle from `.vercel/output`. Pushes to `main` trigger a new production deployment through the connected GitHub repository.
 
 ## Quality commands
 
