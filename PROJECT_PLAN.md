@@ -10,6 +10,8 @@ Status: complete
 - Calculate commit rhythm, activity momentum and language composition
 - Add repository filtering, sorting and six-row pagination
 - Handle loading, empty, 404, rate-limit and unexpected API states
+- Monitor GitHub service health and active incidents with 60-second polling
+- Keep cached metrics visible and provide dependency-aware guidance during outages
 - Build accessible, responsive charts and repository views
 - Cover insight calculations and the primary search form with automated tests
 

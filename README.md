@@ -15,6 +15,8 @@ CommitVista turns live public GitHub activity into understandable engineering in
 - Language composition calculated from repository byte counts
 - Repository search, language filtering and sorting
 - Explicit loading, empty, 404, API error and rate-limit states
+- Live GitHub service health with 60-second polling and incident context
+- Graceful degradation that keeps cached metrics visible during refresh failures
 - URL-backed GitHub identity and repository page
 - Responsive layouts for desktop, tablet and mobile
 - Keyboard-visible focus states and semantic labels
@@ -32,16 +34,16 @@ CommitVista application state
 TanStack Query cache
           │
           ▼
-Typed GitHub service ──► Zod response validation
+Typed GitHub services ─► Zod response validation
           │
           ▼
-GitHub REST API
+GitHub REST API + GitHub Status API
           │
           ▼
 Pure insight functions ──► charts, trends and repository health
 ```
 
-The service layer in `app/lib/github.ts` owns HTTP headers, response validation and API errors. The pure functions in `app/lib/insights.ts` transform those validated responses into chart series and explainable derived signals. UI components never parse unknown API payloads directly.
+The service layers in `app/lib/github.ts` and `app/lib/github-status.ts` own HTTP requests, response validation and API errors. The pure functions in `app/lib/insights.ts` transform validated responses into chart series and explainable derived signals. UI components never parse unknown API payloads directly.
 
 ## Technology
 
@@ -84,6 +86,8 @@ The browser requests public GitHub resources directly. No access token or secret
 
 Public GitHub events are a recent, eventually consistent activity feed. They do not expose private work, may arrive with delay and do not represent all engineering collaboration. Language analysis currently samples up to four original repositories from the visible page to keep the public request budget predictable.
 
+CommitVista also reads GitHub’s public Statuspage summary every 60 seconds. It monitors the API Requests, Issues, Pull Requests, Actions and Webhooks components, surfaces relevant incident updates and explains when dashboard metrics may be delayed or incomplete. A failed background refresh keeps successful query data in the TanStack Query cache instead of replacing unavailable values with zero.
+
 ## Accessibility notes
 
 - Search and filter controls use explicit labels
@@ -100,6 +104,7 @@ Public GitHub events are a recent, eventually consistent activity feed. They do 
 - Pull-request and issue metrics reflect public activity events, not exhaustive repository history
 - Repository filters apply to the current six-item API page
 - There is no account, saved dashboard or authenticated GitHub integration yet
+- Service health uses 60-second browser polling rather than webhooks or a backend event stream
 
 ## Roadmap
 

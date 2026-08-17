@@ -31,6 +31,8 @@ import {
   buildLanguageShares,
   deriveActivityInsights,
 } from "./lib/insights";
+import { GitHubHealthPill, GitHubServiceHealth } from "./components/GitHubServiceHealth";
+import { getGitHubServiceHealth, type GitHubServiceHealth as ServiceHealth } from "./lib/github-status";
 
 const REPOSITORIES_PER_PAGE = 6;
 const EMPTY_EVENTS: GitHubEvent[] = [];
@@ -92,7 +94,15 @@ function ArrowIcon() {
   );
 }
 
-function ErrorPanel({ error, onRetry }: { error: Error; onRetry: () => void }) {
+function ErrorPanel({
+  error,
+  health,
+  onRetry,
+}: {
+  error: Error;
+  health?: ServiceHealth;
+  onRetry: () => void;
+}) {
   const githubError = error instanceof GitHubApiError ? error : null;
   const isRateLimited = githubError?.status === 403 && githubError.rateLimit.remaining === 0;
   const resetTime = githubError?.rateLimit.resetAt
@@ -114,6 +124,12 @@ function ErrorPanel({ error, onRetry }: { error: Error; onRetry: () => void }) {
             : "GitHub interrupted the analysis."}
         </h1>
         <p>{error.message}</p>
+        {health && health.state !== "operational" ? (
+          <p className="dependency-note">
+            GitHub is reporting {health.state.replaceAll("_", " ")}. Some metrics may be
+            delayed or incomplete while GitHub restores service.
+          </p>
+        ) : null}
         {isRateLimited && resetTime ? (
           <p className="reset-note">Public requests reset at approximately {resetTime}.</p>
         ) : null}
@@ -208,6 +224,14 @@ export function CommitVistaApp() {
   const [repositorySearch, setRepositorySearch] = useState("");
   const [language, setLanguage] = useState("all");
   const [sort, setSort] = useState("activity");
+
+  const serviceHealthQuery = useQuery({
+    queryKey: ["github-service-health"],
+    queryFn: ({ signal }) => getGitHubServiceHealth(signal),
+    refetchInterval: 60_000,
+    staleTime: 30_000,
+    retry: 1,
+  });
 
   useEffect(() => {
     const syncFromHistory = () => {
@@ -318,7 +342,15 @@ export function CommitVistaApp() {
     window.history.pushState(null, "", window.location.pathname);
   }
 
-  const criticalError = profileQuery.error ?? eventsQuery.error ?? repositoriesQuery.error;
+  const criticalError =
+    (!profileQuery.data ? profileQuery.error : null) ??
+    (!eventsQuery.data ? eventsQuery.error : null) ??
+    (!repositoriesQuery.data ? repositoriesQuery.error : null);
+  const hasRefreshError = Boolean(
+    (profileQuery.error && profileQuery.data) ||
+      (eventsQuery.error && eventsQuery.data) ||
+      (repositoriesQuery.error && repositoriesQuery.data),
+  );
   if (
     username &&
     (profileQuery.isPending ||
@@ -330,6 +362,7 @@ export function CommitVistaApp() {
     return (
       <ErrorPanel
         error={criticalError}
+        health={serviceHealthQuery.data}
         onRetry={() => {
           void profileQuery.refetch();
           void eventsQuery.refetch();
@@ -346,7 +379,7 @@ export function CommitVistaApp() {
           <a className="brand" href="#top" aria-label="CommitVista home">
             <span className="brand-mark" aria-hidden="true">CV</span><span>CommitVista</span>
           </a>
-          <span className="live-data-pill"><i aria-hidden="true" /> Live GitHub data</span>
+          <GitHubHealthPill health={serviceHealthQuery.data} />
         </header>
         <section className="hero" id="top">
           <div className="hero-copy">
@@ -449,6 +482,16 @@ export function CommitVistaApp() {
       </header>
 
       <div className="dashboard-inner">
+        <GitHubServiceHealth
+          health={serviceHealthQuery.data}
+          isLoading={serviceHealthQuery.isPending}
+          error={serviceHealthQuery.error}
+        />
+        {hasRefreshError ? (
+          <p className="cached-data-notice" role="status">
+            Live refresh is temporarily unavailable. Showing the most recent cached GitHub data.
+          </p>
+        ) : null}
         <section className="profile-banner">
           <div className="profile-identity">
             <Image src={profile.avatar_url} alt={`${profile.name ?? profile.login}'s GitHub avatar`} width={96} height={96} unoptimized />
