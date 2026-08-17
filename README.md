@@ -86,7 +86,7 @@ The browser requests public GitHub resources directly. No access token or secret
 
 Public GitHub events are a recent, eventually consistent activity feed. They do not expose private work, may arrive with delay and do not represent all engineering collaboration. Language analysis currently samples up to four original repositories from the visible page to keep the public request budget predictable.
 
-CommitVista also reads GitHub’s public Statuspage summary every 60 seconds. It monitors the API Requests, Issues, Pull Requests, Actions and Webhooks components, surfaces relevant incident updates and explains when dashboard metrics may be delayed or incomplete. A failed background refresh keeps successful query data in the TanStack Query cache instead of replacing unavailable values with zero.
+CommitVista also reads GitHub’s public Statuspage summary every 60 seconds through a read-only same-origin route. The route avoids browser CORS restrictions, contains no credentials and applies a short edge-cache policy. It monitors the API Requests, Issues, Pull Requests, Actions and Webhooks components, surfaces relevant incident updates and explains when dashboard metrics may be delayed or incomplete. A failed background refresh keeps successful query data in the TanStack Query cache instead of replacing unavailable values with zero.
 
 ## Accessibility notes
 

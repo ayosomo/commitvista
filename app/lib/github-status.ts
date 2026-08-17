@@ -152,7 +152,7 @@ export function parseGitHubServiceSummary(
 }
 
 export async function getGitHubServiceHealth(signal?: AbortSignal) {
-  const response = await fetch("https://www.githubstatus.com/api/v2/summary.json", { signal });
+  const response = await fetch("/api/github-status", { signal });
   if (!response.ok) {
     throw new Error(`GitHub Status returned ${response.status}.`);
   }
