@@ -218,9 +218,9 @@ function RepositoryCard({ repository }: { repository: GitHubRepository }) {
 }
 
 export function CommitVistaApp() {
-  const [username, setUsername] = useState(readInitialUsername);
-  const [query, setQuery] = useState(readInitialUsername);
-  const [page, setPage] = useState(readInitialPage);
+  const [username, setUsername] = useState("");
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
   const [repositorySearch, setRepositorySearch] = useState("");
   const [language, setLanguage] = useState("all");
   const [sort, setSort] = useState("activity");
@@ -239,6 +239,7 @@ export function CommitVistaApp() {
       setQuery(readInitialUsername());
       setPage(readInitialPage());
     };
+    syncFromHistory();
     window.addEventListener("popstate", syncFromHistory);
     return () => window.removeEventListener("popstate", syncFromHistory);
   }, []);
