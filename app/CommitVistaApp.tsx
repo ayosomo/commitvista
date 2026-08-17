@@ -369,11 +369,61 @@ export function CommitVistaApp() {
             </p>
           </div>
           <div className="product-frame" aria-hidden="true">
-            <div className="frame-header"><span>Developer overview</span><span className="frame-period">Live preview</span></div>
-            <div className="empty-dashboard">
-              <div className="signal-grid"><span /><span /><span /><span /><span /><span /><span /><span /></div>
-              <p>Live activity becomes a clear, useful engineering narrative.</p>
-              <div className="metric-labels"><span>Repositories</span><span>Commit rhythm</span><span>Languages</span></div>
+            <div className="frame-header">
+              <span>Engineering intelligence</span>
+              <span className="frame-period"><i /> Live public data</span>
+            </div>
+            <div className="preview-board">
+              <div className="preview-board__glow" />
+
+              <section className="preview-velocity">
+                <div>
+                  <span>14-day velocity</span>
+                  <strong>+28.6%</strong>
+                </div>
+                <div className="velocity-bars">
+                  <i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
+                </div>
+              </section>
+
+              <section className="preview-network">
+                <span className="network-label">Repository graph</span>
+                <i className="network-link network-link--one" />
+                <i className="network-link network-link--two" />
+                <i className="network-link network-link--three" />
+                <b className="network-node network-node--one" />
+                <b className="network-node network-node--two" />
+                <b className="network-node network-node--three" />
+                <b className="network-node network-node--four" />
+                <b className="network-node network-node--five" />
+              </section>
+
+              <section className="preview-trend">
+                <div className="preview-trend__heading">
+                  <span>Contribution momentum</span><strong>84 signal score</strong>
+                </div>
+                <div className="trend-grid"><i /><i /><i /><i /></div>
+                <div className="trend-line trend-line--lime"><i /><i /><i /><i /><i /></div>
+                <div className="trend-line trend-line--blue"><i /><i /><i /><i /><i /></div>
+                <div className="trend-dots"><i /><i /><i /><i /><i /><i /></div>
+              </section>
+
+              <section className="preview-activity">
+                <span>Commit rhythm</span>
+                <div className="activity-bars">
+                  <i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
+                </div>
+              </section>
+
+              <section className="preview-health">
+                <div className="health-ring"><span>92</span></div>
+                <div><strong>Healthy</strong><span>Repository pulse</span></div>
+              </section>
+
+              <div className="preview-legend">
+                <span><i className="legend-lime" /> Commits</span>
+                <span><i className="legend-blue" /> Pull requests</span>
+              </div>
             </div>
           </div>
         </section>

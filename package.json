@@ -14,7 +14,7 @@
     "test:watch": "vitest",
     "test:rendered": "npm run build && node --test tests/rendered-html.test.mjs",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern .vercel"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.21",
