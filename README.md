@@ -1,8 +1,19 @@
 # CommitVista
 
+[![CI](https://github.com/ayosomo/commitvista/actions/workflows/ci.yml/badge.svg)](https://github.com/ayosomo/commitvista/actions/workflows/ci.yml)
+
 CommitVista turns live public GitHub activity into understandable engineering insights. Enter a GitHub username or profile URL to explore repository health, recent contribution rhythm, pull-request signals and language composition.
 
-**Live demo:** [commitvista.vercel.app](https://commitvista.vercel.app)
+| | |
+| --- | --- |
+| **Live demo** | [Open CommitVista](https://commitvista.vercel.app) |
+| **Stack** | React 19, TypeScript, vinext/Vite, TanStack Query, Zod, Recharts |
+| **Tests** | Vitest, React Testing Library, Node rendered-output checks |
+| **Deployment** | Vercel, continuously deployed from `main` |
+
+## Product preview
+
+![CommitVista engineering intelligence dashboard](./docs/images/commitvista-dashboard.png)
 
 > Phase 1 is a frontend product prototype backed by the real GitHub REST API. It does not use invented dashboard data and it does not claim that activity volume is a complete measure of developer productivity.
 
