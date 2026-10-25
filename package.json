@@ -19,7 +19,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.90.21",
     "react": "19.2.6",
-    "react-dom": "19.2.6",
+    "react-dom": "19.2.8",
     "recharts": "^3.8.0",
     "zod": "^4.3.6"
   },
@@ -32,7 +32,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
+    "@types/react-dom": "19.2.4",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
     "eslint": "9.39.4",
